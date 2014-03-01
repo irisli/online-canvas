@@ -1,0 +1,8 @@
+{
+  "name": "online-canvas-server",
+  "version": "0.1.0",
+  "private": "true",
+  "dependencies": {
+    "socket.io": "0.9.x"
+  }
+}

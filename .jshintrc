@@ -1,0 +1,17 @@
+{
+    "browser" : true,
+    "devel"   : true,
+    "predef": [
+        // Socket.io
+        "socket",
+        "io",
+        "$",
+        "canvasDataClass",
+        "canvasData",
+        "clientID",
+        "getRandomHash",
+        "CryptoJS",
+        "myColor",
+        "drawer"
+    ]
+}
