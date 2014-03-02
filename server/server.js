@@ -13,8 +13,8 @@ var server = http.createServer(function(req, res) {
 });
 
 socketio.listen(server).set('transports',[
-    'websocket',
     'xhr-polling',
+    'websocket',
     'jsonp-polling'
 ]).sockets.on("connection", function(socket) {
     socket.emit("welcome", " ");
