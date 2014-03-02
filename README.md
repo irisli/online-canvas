@@ -6,6 +6,8 @@ by one user is seen by all other users.
 
 Each time the app is loaded, a new random color is generated.
 
+See it in action: http://draw.iris.li/
+
 ##Network##
 The server contains no drawing logic and all it does is relay messages from one
 client to all other clients. New users attempt to get seed data which is an object
