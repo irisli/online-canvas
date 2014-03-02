@@ -12,13 +12,13 @@ client to all other clients. New users attempt to get seed data which is an obje
 containing all previous lines that were drawn.
 
 ###Network data type###
-This app uses a simple form of [JSON-RPC](http://en.wikipedia.org/wiki/JSON-RPC).
+This app uses a simple form of [JSON-RPC](http://en.wikipedia.org/wiki/JSON-RPC)
+as the network data format.
 Since there is no drawing logic on the server, there may be multiple responses to the
 same method request. Since there is no easy way to generate incremental request
 ids, sha-256 is used to generate unique request ids.
 
 ```javascript
-// Example
 --> {"method": "echo", "params": ["Hello JSON-RPC"], "id": hash}
 <-- {"result": "Hello JSON-RPC", "error": null, "id": hash}
 ```
@@ -59,8 +59,7 @@ will assume that it is the only client in the room.
 Whenever new lines are drawn, the client broadcasts it using the newPoints method.
 
 ```javascript
-// Example
---> {"method": "newPoints", "params": [{color, x, y, continuation}, {...}, {...}], "id": hash}
+--> {"method": "newPoints", "params": [{canvasData.PathNode}, {...}, {...}], "id": hash}
 ```
 Since a few seconds of drawing can generate more than a few hundred nodes, the
 paths are coalesced during small time intervals and then sent. Instead of sending line segments
