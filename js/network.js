@@ -61,13 +61,18 @@ var network = {
         remove: function(id) {
             //console.log("Event listener for " + id + " was removed.");
             for (var i = 0, l = this.listeners.length; i < l; i++) {
-                if (this.listeners[i] !== "undefined" && this.listeners[i].hasOwnProperty("id") && this.listeners[i].id == id) {
+                if (typeof this.listeners[i] !== "undefined" && this.listeners[i].hasOwnProperty("id") && this.listeners[i].id == id) {
                     this.listeners.splice(i, 1);
                 }
             }
         }
     }
 };
+
+socket.on('connect', function () {
+    // socket connected
+    console.log("connected");
+});
 
 /**
  * These are the events that the websocket server will emit
