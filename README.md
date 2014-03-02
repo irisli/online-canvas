@@ -28,7 +28,6 @@ Upon opening the application, the new client uses the getSeed method to tell all
 the other clients it wants a copy of all drawing that has occured.
 
 ```javascript
-// Example
 --> {"method": "findSeeder", "params": [], "id": hash}
 ```
 
