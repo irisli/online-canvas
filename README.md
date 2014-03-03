@@ -1,24 +1,25 @@
 Online Canvas
 -------------
-This is a simple drawing app that uses html5 and canvas for the drawing and a
-backend that uses socket.io to connect to other clients so that what is drawn
-by one user is seen by all other users.
+This is a simple drawing app that uses HTML5 canvas for the display and a
+backend that uses socket.io to connect to other clients. Lines drawn on one client
+will also show up on all other connected clients.
 
-Each time the app is loaded, a new random color is generated.
+Each time the app is loaded, the user is assigned a new random color.
 
 See it in action: http://draw.iris.li/
 
 ##Network##
 The server contains no drawing logic and all it does is relay messages from one
-client to all other clients. New users attempt to get seed data which is an object
-containing all previous lines that were drawn.
+client to all other clients. New users attempt to get seed data which is data
+containing all the lines previously drawn. Once connected, a client is ready to
+sends out lines that they drew to all other clients.
 
 ###Network data type###
 This app uses a simple form of [JSON-RPC](http://en.wikipedia.org/wiki/JSON-RPC)
-as the network data format.
+for the transmission of data objects.
 Since there is no drawing logic on the server, there may be multiple responses to the
-same method request. Since there is no easy way to generate incremental request
-ids, sha-256 is used to generate unique request ids.
+same method request. Under this system, there is no easy way to generate incremental request
+ids. Therefore sha-256 is used to generate unique request ids.
 
 ```javascript
 --> {"method": "echo", "params": ["Hello JSON-RPC"], "id": hash}
@@ -34,15 +35,15 @@ the other clients it wants a copy of all drawing that has occured.
 ```
 
 Then, all the connected nodes should respond with their unique clientID (randomly
-generated with sha-256).
+generated with sha-256 upon program startup).
 ```javascript
 // Response to findSeeder
 <-- {"result": string clientID, "error": null, "id": hash}
 ```
 
-The new client will respond with the the clientHash that they want to get the
-seed data from. This is usually the first person that responds to their getSeed.
-This is designed to prevent multiple clients from unnecessarily sending seeds.
+The new client will ask the first client that responded to its findSeeder to send
+over the seed. This is designed to prevent multiple clients from unnecessarily sending seeds
+and to also pick clients that tend to be more responsive.
 ```javascript
 --> {"method": "getSeedData", "params": [string clientID], "id": hash}
 ```
@@ -66,6 +67,6 @@ Since a few seconds of drawing can generate more than a few hundred nodes, the
 paths are coalesced during small time intervals and then sent. Instead of sending line segments
 immediately as they are drawn, they are all queued up and sent 100ms after
 the first queued item is created. This barely affects the perceived lag in drawing
-while reducing the amount of messages sent.
+while reducing the amount of messages sent and reducing network clutter.
 
 No response to newPoints is expected and therefore it not carry a hash id.
